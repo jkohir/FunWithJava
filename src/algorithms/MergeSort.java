@@ -14,7 +14,7 @@ import java.util.Arrays;
  */
 public class MergeSort {
     public static void main(String[] args){
-        int[] input={10,9,8,7,6,5,4,3,2,1};
+        int[] input={11,10,9,8,7,6,5,4,3,2,1};
         int[] sorted=mergeSort(input);
         for(int i:sorted){
             System.out.print(i+" "); 
