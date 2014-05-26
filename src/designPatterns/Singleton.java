@@ -41,7 +41,7 @@ public class Singleton {
 
 class TestSingleton {
 
-    public static void main(String[] args) throws ReflectiveOperationException {
+    public static void main(String[] args){
         System.out.println("Inside main(): Getting the singleton instance using getInstance()...");
 //        Singleton s = Singleton.getInstance();
         Singleton s1=new Singleton();
