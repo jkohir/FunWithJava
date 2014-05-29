@@ -50,16 +50,16 @@ public final class Person
   
   @Override
   public boolean equals(Object other) {
-    if (this == other)
-      return true;
-    if ( ! this.canEqual(other) )
-      return false;
-    Person that = (Person) other;
-    if ( ! that.canEqual(this) )
-      return false;
-    return this.name.equals(that.name)
-      && this.age == that.age;
+//    if (this == other)
 //      return true;
+//    if ( ! this.canEqual(other) )
+//      return false;
+//    Person that = (Person) other;
+//    if ( ! that.canEqual(this) )
+//      return false;
+//    return this.name.equals(that.name)
+//      && this.age == that.age;
+      return true;
 //      return false;
   }
   

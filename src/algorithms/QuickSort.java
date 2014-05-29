@@ -11,22 +11,27 @@ package algorithms;
 public class QuickSort {
     
     public static void main(String[] args){
-        int[] a={9,7,3,1,2,5,4,6,8,5,2};
+        int[] a={9,7,5,1,2,3,4,6,8,11,10};
         System.out.println("Original Array");
         for (int i = 0; i < a.length; i++) {
             System.out.print(a[i]+" ");
         }
-        System.out.println("\nSorted Array: ");
-        quickSortUsingTailRecursion(a, 0, a.length-1);
+//        System.out.println("\nSorted Array: ");
+        System.out.println("");
+        quickSortUsingPartialTailRecursion(a, 0, a.length-1);
+//        quickSortUsingLoop(a, 0, a.length-1);
         for (int i = 0; i < a.length; i++) {
             System.out.print(a[i]+" ");
         }
+        
+        int a1[]={9,7,5,1,2,3,4,6,8,11,10};
+        System.out.println("kth element: "+quickselect(a1, 5));
     }
 
-    static int partition(int arr[], int left, int right) {
+    static int partition(int arr[], int left, int right, int pivot) {
         int i = left, j = right;
         int tmp;
-        int pivot = arr[(left + right) / 2];
+//        int pivot = arr[(left + right) / 2];
 
         while (i <= j) {
             while (arr[i] < pivot) {
@@ -48,7 +53,7 @@ public class QuickSort {
     }
 
     static void quickSort(int arr[], int left, int right) {
-        int index = partition(arr, left, right);
+        int index = partition(arr, left, right, arr[(left+right)/2]);
         if (left < index - 1) {
             quickSort(arr, left, index - 1);
         }
@@ -76,17 +81,20 @@ public class QuickSort {
     }
     
     static void myQuickSort(int[] a, int left, int right){
-        int index=partition(a, left, right);
+        int index=partition(a, left, right, a[(left+right)/2]);
         if(left<index-1)
             myQuickSort(a, left, index-1);
         if(index<right)
             myQuickSort(a, index, right);
     } 
     
-    static void quickSortUsingTailRecursion(int[] a, int left, int right){
+    static void quickSortUsingPartialTailRecursion(int[] a, int left, int right){
+        
         while(left<right){
-            int index=partition(a, left, right);
-            quickSortUsingTailRecursion(a, left, index-1);
+            int index=partition(a, left, right, a[(left+right)/2]);
+            System.out.println("left: "+left+" right: "+right+" index: "+index);
+            printArray(a, left, right);
+            quickSortUsingPartialTailRecursion(a, left, index-1);
             left=index;
         }
     }
@@ -94,9 +102,38 @@ public class QuickSort {
     static void quickSortUsingLoop(int[] a, int left, int right){
         int index;
         while(left<right){
-            index=partition(a, left, right);
-            partition(a, left, index-1);
-            partition(a, index, right);
+            index=partition(a, left, right, a[(left+right)/2]);
+            System.out.println("left: "+left+" right: "+right+" index: "+index);
+            partition(a, left, index-1, a[(left+right)/2]);
+            System.out.println("left: "+left+" right: "+(index-1)+" index: "+index);
+            left=index;
         }
+    }
+    
+    static void printArray(int[] a, int left, int right){
+        System.out.println("");
+        for(int i=left; i<=right; i++){
+            System.out.print(a[i]+" ");
+        }
+        System.out.println("");
+    }
+    
+    static int findKthElement(int []a, int k){
+        return a[partition(a, 0, a.length-1, k)];
+    }
+    
+    static int quickselect(int [] a, int k) { 
+     int left=0, right = a.length - 1;
+     int newPivotIdx,pivotIdx=(0+a.length)/2;
+     while (right > left) {
+         //Choose a pivot element a[pivotIdx] with left <= pivotIdx <= right
+         newPivotIdx = partition(a, left, right, pivotIdx);
+         if (k < newPivotIdx) {
+             right = newPivotIdx - 1;
+         } else {
+             left = newPivotIdx + 1;
+         }
+     }
+     return a[k];
     }
 }

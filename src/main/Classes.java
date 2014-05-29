@@ -13,13 +13,15 @@ public class Classes {
     public static void main(String args[]) throws InterruptedException {
   
         NotUsed o = null; //this class is not used, should not be initialized
-        //Child t = new Child(); //initializing sub class, should trigger super class initialization
+        Parent p = new Child(); //initializing sub class, should trigger super class initialization
         //System.out.println((Object)o == (Object)t);
+        System.out.println("value of overridable field: "+p.overridablefield);//parent's field value would be printed not child's
         
         //accessing non final static field of Parent through child, should only initialize Parent's static block
         System.out.println(Child.familyName);
 //        Classes classes=new Classes();
 //        Classes.privateInner privateinner=classes.new privateInner();//can only be accessed in this class, no other class
+        System.out.println("private static inner: "+privateStaticInner.i);
     }
     
     public class publicInner{
@@ -35,7 +37,7 @@ public class Classes {
     }
     
     private static class privateStaticInner{
-        
+        private static final int i=3;
     }
 }
 
@@ -47,6 +49,7 @@ class Parent {
     //compile time constant, accessing this will not trigger class initialization
 //    protected static final String familyName = "Lawson";
     protected static final Parent familyName = new Parent();
+    public int overridablefield=2;
 //    protected static String familyName = "Lawson";
     
     Parent(){
@@ -64,15 +67,15 @@ class Parent {
 //        Child.Inner inner=child.new Inner(); // This is the correct way to initialize a non private Inner class
     }
     
-    public void method(){
+    void method(){
         System.out.println("supera");
     }
     
     class MyInner extends Parent{
-    @Override
-    public void method(){
-        System.out.println("subba");
-    }
+        @Override
+        protected void method(){
+            System.out.println("subba");
+        }
     }
 }
 
@@ -90,6 +93,8 @@ class Child extends Parent {
     private  final int outerprivatefinal;
     private int outerPrivate;
     static int i;
+    public int overridablefield=5;
+    
     static 
     { 
         System.out.println("static block of Sub class is initialized in Java "); 
@@ -112,6 +117,20 @@ class Child extends Parent {
     Child(){
         System.out.println("Constructor of child called"); 
     }
+
+    @Override
+    public void method() {
+        super.method();
+    }
+    
+    private int method(int i){ //overloaded methods can have 1.different access specifiers 2.different arguments 3.different return types
+        return i;
+    }
+    
+//    private void method(int i){ //Not allowed! overloaded methods with same signature cannot have different return types, as the call would be ambiguous
+//        return i;
+//    }
+    
      class Inner{
         //private static final int j; //Won't work unless you initialize right here, not in constructor
         private final int innerprivatefinal; //Won't work if you don't initialize in constructor/initialization block but any other method.
@@ -131,13 +150,16 @@ class Child extends Parent {
         private void method(){
             Child.i=0;
 //            outerprivatefinal=2;  //can't assign value here.
-//            innerprivatefinal=0; // can't initialize value of final variable in thie method.
+//            innerprivatefinal=0; // can't initialize value of final variable in this method.
             outerPrivate=2; //can access outer private without outer class' object.
             final int finalVar=2;
             int nonfinalVar=2;
 //            interface sample{}//not allowed coz, you can't declare static members in a local method and an interface
             //is inherently static
             class Local{
+                Local(){
+//                    System.out.println(nonfinalVar);//access to a non final local variable is not allowed
+                }
                 {
                     System.out.println("final Var: "+finalVar); //access to a final local variable is allowed
 //                    System.out.println("non final Var: "+nonfinalVar); //access to a non final local variable is not allowed
@@ -148,6 +170,11 @@ class Child extends Parent {
                             throw new UnsupportedOperationException("Not supported yet.");
                         }
                     };
+                    
+                    
+                    {
+//                        System.out.println(nonfinalVar);//access to a non final local variable is not allowed even in initialization block
+                    }
                 }
             }
         }
