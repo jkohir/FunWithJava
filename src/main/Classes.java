@@ -65,6 +65,8 @@ class Parent {
 //        Child child=new Child();
         //Child.Inner inner=new Child.Inner(); // not allowed
 //        Child.Inner inner=child.new Inner(); // This is the correct way to initialize a non private Inner class
+        MyInner myinner=new MyInner();
+        myinner.method1(myinner);
     }
     
     void method(){
@@ -75,6 +77,12 @@ class Parent {
         @Override
         protected void method(){
             System.out.println("subba");
+        }
+        public void method1(Parent o){
+            System.out.println("parent obj");
+        }
+        public void method1(MyInner o){
+            System.out.println("inner obj");
         }
     }
 }
