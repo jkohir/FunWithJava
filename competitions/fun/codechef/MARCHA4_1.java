@@ -11,7 +11,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Scanner;
 
-public class MARCHA4 {
+public class MARCHA4_1 {
 
 	public static void main(String[] args) throws IOException {
 		execute();
@@ -54,43 +54,54 @@ public class MARCHA4 {
 	private static void firstK(int n, int k) throws IOException{
 		int digits = (""+n).length();
 		int maxDigitsNeeded = k+digits;
-		long result = fastExponentiation(new BigInteger(""+n),new BigInteger(""+n), maxDigitsNeeded);
+		BigInteger result = fastExponentiation(new BigInteger(""+n),new BigInteger(""+n), 100);
 		digits = (""+result).length();
-		long divisor = (long)Math.pow(10, digits-k);
-		result = result/divisor;
-		System.out.print((""+result));
+//		long divisor = (long)Math.pow(10, digits-k);
+//		result = result/divisor;
+		String resultStr = (""+result).substring(0, k);
+		System.out.print(resultStr);
 	}
 
 	// calculates x^n mod divisor
-	private static long fastExponentiation(BigInteger x, BigInteger n, int maxDigitsNeeded) {
+	private static BigInteger fastExponentiation(BigInteger x, BigInteger n, int maxDigitsNeeded) {
 		if (n.compareTo(BigInteger.ONE) == 0)
-			return x.longValueExact();
+//			return x.longValueExact();
+			return x;
 		long divisor = 1;
+		String output=x.toString();
 		if (n.mod(BigInteger.valueOf(2)).compareTo(BigInteger.ZERO) == 0) {
+			output+="^2=";
 			x = x.multiply(x);
+			output+=x+" n:"+n;
+			System.out.println(output);
 			int digits = getDigitCount(x);
 			if (digits > maxDigitsNeeded) {
-				divisor = (long) Math.pow(10, digits - maxDigitsNeeded);
+//				divisor = (long) Math.pow(10, digits - maxDigitsNeeded);
+				String trim = x.toString();
+				x = new BigInteger(trim.substring(0,maxDigitsNeeded));
 			}
-			x = x.divide(BigInteger.valueOf(divisor));
+//			x = x.divide(BigInteger.valueOf(divisor));
 			return fastExponentiation(x, n.divide(BigInteger.valueOf(2)), maxDigitsNeeded);
 		} else {
-			BigInteger temp = x.multiply(x);
-			int digits = getDigitCount(temp);
-			if (digits > maxDigitsNeeded) {
-				divisor = (long) Math.pow(10, digits - maxDigitsNeeded);
-			}
-			temp = temp.divide(BigInteger.valueOf(divisor));
-			long result = fastExponentiation(temp, n.subtract(BigInteger.ONE).divide(BigInteger.valueOf(2)), maxDigitsNeeded);
+//			long result = fastExponentiation(x, n.subtract(BigInteger.ONE), maxDigitsNeeded);
+			BigInteger result = fastExponentiation(x, n.subtract(BigInteger.ONE), maxDigitsNeeded);
+			output+="^"+n+"-1="+result+" n:"+n;
+			System.out.println(output);
 			// System.out.println(result);
 			divisor = 1;
-			x = x.multiply(BigInteger.valueOf(result));
-			digits = getDigitCount(x);
+			output=x.toString()+"*"+result+"=";
+			x = x.multiply(result);
+			output+=x.toString()+" n:"+n;
+			System.out.println(output);
+			int digits = getDigitCount(x);
 			if (digits > maxDigitsNeeded) {
-				divisor = (long) Math.pow(10, digits - maxDigitsNeeded);
+//				divisor = (long) Math.pow(10, digits - maxDigitsNeeded);
+				String trim = x.toString();
+				x = new BigInteger(trim.substring(0,maxDigitsNeeded));
 			}
-			x = x.divide(BigInteger.valueOf(divisor));
-			return x.longValueExact();
+//			x = x.divide(BigInteger.valueOf(divisor));
+//			return x.longValueExact();
+			return x;
 		}
 	}
 

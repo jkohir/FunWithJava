@@ -1,7 +1,7 @@
 /*
  * Rise and fall of power
  */
-package fun.codechef;
+package fun.codechef.test.classes;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,29 +9,37 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MARCHA4 {
-
+	public static List<String> firstKList = new ArrayList<String>(30000);
+	public static List<String> lastKList = new ArrayList<String>(30000);
+	public static List<Integer> numbers = new ArrayList<Integer>(30000);
+	
 	public static void main(String[] args) throws IOException {
 		execute();
 	}
 
 	public static long execute() throws IOException {
+		firstKList.clear();
+		lastKList.clear();
 		long start = System.nanoTime();
 		FileInputStream fileIn = new FileInputStream(new File("D:\\Google Drive\\Books\\My code musings\\Codechef\\MARCHA4\\MARCHA4-random-input.txt"));
-//		Scanner scanner = new Scanner(fileIn);
-		Scanner scanner = new Scanner(System.in);
+		Scanner scanner = new Scanner(fileIn);
+//		Scanner scanner = new Scanner(System.in);
 		int t = scanner.nextInt();
 		for(int i=0; i<t; i++){
 			int n = scanner.nextInt();
 			int k = scanner.nextInt();
+			numbers.add(n);
 			firstK(n, k);
 			lastKDigits(n, k);
 		}
 		scanner.close();
 		long end = System.nanoTime();
-		System.out.println("Your program completed in: "+(end-start)/1000000 + " ms");
+//		System.out.println("Your program completed in: "+(end-start)/1000000 + " ms");
 //		long result = 999999999L * 999999999L;
 //		result = (result * result)%(long)Math.pow(10, 18);
 //		System.out.println(result);
@@ -48,7 +56,7 @@ public class MARCHA4 {
 		logBD = logBD.add(new BigDecimal(k-1));
 		double exponential = logVal-Math.floor(logVal)+k-1;
 		long result = (long)Math.pow(10, exponential);
-		System.out.print((""+result));
+		System.out.println(result);
 	}
 	
 	private static void firstK(int n, int k) throws IOException{
@@ -58,7 +66,8 @@ public class MARCHA4 {
 		digits = (""+result).length();
 		long divisor = (long)Math.pow(10, digits-k);
 		result = result/divisor;
-		System.out.print((""+result));
+		firstKList.add(result+"");
+//		System.out.print(result);
 	}
 
 	// calculates x^n mod divisor
@@ -86,8 +95,8 @@ public class MARCHA4 {
 			divisor = 1;
 			x = x.multiply(BigInteger.valueOf(result));
 			digits = getDigitCount(x);
-			if (digits > maxDigitsNeeded) {
-				divisor = (long) Math.pow(10, digits - maxDigitsNeeded);
+			if (digits > 18) {
+				divisor = (long) Math.pow(10, digits - 18);
 			}
 			x = x.divide(BigInteger.valueOf(divisor));
 			return x.longValueExact();
@@ -119,7 +128,8 @@ public class MARCHA4 {
 		while(resultStr.length()<k){
 			resultStr.replace(0, 0, "0");
 		}
-		System.out.println(resultStr.replace(0, 0, " "));
+		lastKList.add(resultStr.toString());
+//		System.out.println(resultStr.replace(0, 0, " "));
 	}
 
 }

@@ -47,13 +47,14 @@ public class TestCaseGenerator {
     
 	public static void generateRandomTestCaseForMARCHA4()
 			throws FileNotFoundException {
-		PrintWriter pw = new PrintWriter(new File("D:\\Google Drive\\Books\\My code musings\\Codechef\\MARCHA4-random-input.txt"));
+		PrintWriter pw = new PrintWriter(new File("D:\\Google Drive\\Books\\My code musings\\Codechef\\MARCHA4\\MARCHA4-random-input.txt"));
 		Random randomGenerator = new Random();
 		int n, k;
 		pw.println(30000);
 		for (int testCase = 1; testCase <= 30000; ++testCase) {
 			n = randomGenerator.nextInt((int) Math.pow(10, 9)) + 1;
-			k = randomGenerator.nextInt(9) + 1;
+//			k = randomGenerator.nextInt(9) + 1;
+			k=1;
 			pw.println(n + " " + k);
 		}
 		pw.close();

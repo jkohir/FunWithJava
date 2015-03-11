@@ -1,4 +1,4 @@
-package fun.codechef.competitors;
+package fun.codechef.test.classes;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -6,9 +6,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MARCHA4_clmathuriya {
 
+	public static List<String> firstKList = new ArrayList<String>(30000);
+	public static List<String> lastKList = new ArrayList<String>(30000);
+	public static List<Integer> numbers = new ArrayList<Integer>(30000);
+	
 	static int testCount;
 
 	static BufferedOutputStream out;
@@ -109,10 +115,12 @@ public class MARCHA4_clmathuriya {
 
 	public static long execute() throws Exception {
 		 long startTime = System.nanoTime();
-
+	    firstKList.clear();
+	    lastKList.clear(); 
 		main = new MARCHA4_clmathuriya();
 		FileInputStream fileIn = new FileInputStream(new File("D:\\Google Drive\\Books\\My code musings\\Codechef\\MARCHA4\\MARCHA4-random-input.txt"));
 		InputStreamReader fileInStream = new InputStreamReader(fileIn);
+//		InputStreamReader fileInStream = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(fileInStream);
 
 		out = new BufferedOutputStream(System.out);
@@ -140,6 +148,7 @@ public class MARCHA4_clmathuriya {
 				str = str.substring(spaceIndex + 1, str.length());
 
 				int a = Integer.parseInt(str1);
+				numbers.add(a);
 
 				int b = Integer.parseInt(str);
 
@@ -178,12 +187,12 @@ public class MARCHA4_clmathuriya {
 		}
 
 		String str = str1.concat(str2).substring(0, k);
-
-		out.write(str.getBytes());
+		firstKList.add(str);
+//		out.write(str.getBytes());
 
 		;
 
-		out.write(spaceb);
+//		out.write(spaceb);
 
 	}
 
@@ -226,10 +235,10 @@ public class MARCHA4_clmathuriya {
 			x = "0".concat(x);
 
 		}
+		lastKList.add(x);
+//		out.write(x.getBytes());
 
-		out.write(x.getBytes());
-
-		out.write(eolb);
+//		out.write(eolb);
 
 	}
 
