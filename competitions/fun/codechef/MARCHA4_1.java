@@ -1,6 +1,11 @@
 /*
  * Rise and fall of power
+ * Failing test case:
+ * 884923651 4
+expected: 752856811 184058651
+actual:   752856809 184058651
  */
+
 package fun.codechef;
 
 import java.io.File;
